@@ -12,10 +12,10 @@ export class User {
   lastName: string;
 
   @Column()
-  accoutnNumber: number;
+  accountNumber: number;
 
   @Column()
-  accoutnDigit: number;
+  accountDigit: number;
 
   @Column()
   wallet: number;
