@@ -7,7 +7,7 @@ interface CardProps {
   children?: React.ReactNode
 }
 
-export const Card = ({
+const Card = ({
   width = '100%',
   height = 'auto',
   noShadown = false,
@@ -19,3 +19,5 @@ export const Card = ({
     </CardContainer>
   )
 }
+
+export default Card
