@@ -11,6 +11,10 @@ const GlobalStyle = createGlobalStyle`
     font-family: Roboto, 'Open Sans', 'Helvetica Neue', sans-serif
   }
 
+  .primary-color{
+    color: ${({ theme }) => theme.colors.primary};
+  }
+
 `
 
 export default GlobalStyle
