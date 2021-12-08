@@ -1,6 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
 
-
 const GlobalStyle = createGlobalStyle`
   *{
     padding: 0;
@@ -8,7 +7,8 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body{
-    background-color: ${({ theme }) => theme.colors.background}
+    background-color: ${({ theme }) => theme.colors.background};
+    font-family: Roboto, 'Open Sans', 'Helvetica Neue', sans-serif
   }
 
 `
