@@ -9,9 +9,21 @@ import Card from '../../components/Card'
 import Input from '../../components/Input'
 import Button from '../../components/Button'
 import Statement from './Statement'
+import useAuth from '../../hooks/useAuth'
+import { useEffect } from 'react'
 
 const DashBoard = () => {
-  const wallet = 5000
+  const { user, getCurrentUser } = useAuth()
+  const wallet = user?.wallet || 0
+
+  useEffect(() => {
+    getCurrentUser()
+  }, [])
+
+  if (!user) {
+    return null
+  }
+
   return (
     <DashboardBackground>
       <Header />
@@ -23,7 +35,7 @@ const DashBoard = () => {
             </InlineTitle>
             <InlineContainer>
               <h3 className="wallet">
-                {wallet.toLocaleString('pt-BR', {
+                {wallet?.toLocaleString('pt-BR', {
                   style: 'currency',
                   currency: 'BRL'
                 })}

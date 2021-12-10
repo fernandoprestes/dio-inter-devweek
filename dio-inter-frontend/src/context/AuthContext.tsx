@@ -23,19 +23,25 @@ interface ContextData {
   user: UserDto
   userSignIn: (userData: SignInData) => Promise<UserDto>
   userSignUp: (userData: SignUpData) => Promise<UserDto>
-  me: () => Promise<AxiosResponse<UserDto, any>>
+  getCurrentUser: () => Promise<UserDto>
 }
 
 export const AuthContex = createContext<ContextData>({} as ContextData)
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const [user, setUser] = useState<UserDto>({} as UserDto)
+  const [user, setUser] = useState<UserDto>(() => {
+    const user = localStorage.getItem('@Inter:User')
+    if (user) {
+      return JSON.parse(user)
+    }
+
+    return {} as UserDto
+  })
 
   const userSignIn = async (userData: SignInData) => {
     const { data } = await signIn(userData)
 
     if (data?.status === 'error') {
-      console.log(data)
       return data
     }
 
@@ -43,23 +49,29 @@ export const AuthProvider: React.FC = ({ children }) => {
       localStorage.setItem('@Inter:Token', data.accessToken)
     }
 
-    return await getCurrentUser()
+    return getCurrentUser()
   }
 
   const userSignUp = async (userData: SignUpData) => {
     const { data } = await signUp(userData)
-    localStorage.setItem('@Inter:Token', data.accessToken)
-    return await getCurrentUser()
+    if (data.accessToken) {
+      localStorage.setItem('@Inter:Token', data.accessToken)
+    }
+
+    return getCurrentUser()
   }
 
   const getCurrentUser = async () => {
     const { data } = await me()
     setUser(data)
+    localStorage.setItem('@Inter:User', JSON.stringify(user))
     return data
   }
 
   return (
-    <AuthContex.Provider value={{ user, userSignIn, userSignUp, me }}>
+    <AuthContex.Provider
+      value={{ user, userSignIn, userSignUp, getCurrentUser }}
+    >
       {children}
     </AuthContex.Provider>
   )

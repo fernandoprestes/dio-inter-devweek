@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react'
+
 import {
   StatementContainer,
   StatementItemContainer,
@@ -8,13 +10,15 @@ import {
 import { format } from 'date-fns'
 import { FiDollarSign } from 'react-icons/fi'
 
+import { transactions } from '../../../services/resources/pix'
+
 interface StatementItem {
   user: {
     firstName: string
     lastName: string
   }
   value: number
-  type: 'pay' | 'received'
+  type: 'paid' | 'received'
   updatedAt: Date
 }
 
@@ -32,52 +36,33 @@ const StatementItem = ({ user, value, type, updatedAt }: StatementItem) => {
           })}
         </p>
         <p>
-          {type === 'pay' ? 'Pago a' : 'Recebido de'}
+          {type === 'paid' ? 'Pago a ' : 'Recebido de '}
           <strong>
             {user.firstName} {user.lastName}
           </strong>
         </p>
-        <p>{format(updatedAt, "dd/mm/yyyy 'às' HH:mm:'h'")}</p>
+        <p>{format(new Date(updatedAt), "dd/mm/yyyy 'às' HH:mm:'h'")}</p>
       </StatementItemInfo>
     </StatementItemContainer>
   )
 }
 
 const Statement = () => {
-  const statements: StatementItem[] = [
-    {
-      user: {
-        firstName: 'Ana',
-        lastName: 'Betriz'
-      },
-      value: 152.0,
-      type: 'pay',
-      updatedAt: new Date()
-    },
-    {
-      user: {
-        firstName: 'Ana',
-        lastName: 'Betriz'
-      },
-      value: 325.0,
-      type: 'received',
-      updatedAt: new Date()
-    },
-    {
-      user: {
-        firstName: 'Ana',
-        lastName: 'Betriz'
-      },
-      value: 12.0,
-      type: 'pay',
-      updatedAt: new Date()
-    }
-  ]
+  const [statements, setStatements] = useState<StatementItem[]>([])
+
+  const getAllTransactions = async () => {
+    const { data } = await transactions()
+    setStatements(data.transactions)
+  }
+
+  useEffect(() => {
+    getAllTransactions()
+  }, [])
+
   return (
     <StatementContainer>
-      {statements.map(statement => (
-        <StatementItem {...statement} />
-      ))}
+      {statements.length > 0 &&
+        statements.map(statement => <StatementItem {...statement} />)}
     </StatementContainer>
   )
 }

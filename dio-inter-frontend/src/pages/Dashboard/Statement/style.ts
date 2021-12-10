@@ -20,7 +20,7 @@ export const StatementItemInfo = styled.div`
   }
 `
 
-export const StatementItemImage = styled.div<{ type: 'pay' | 'received' }>`
+export const StatementItemImage = styled.div<{ type: 'paid' | 'received' }>`
   width: 60px;
   height: 60px;
   margin-right: 20px;
@@ -31,5 +31,5 @@ export const StatementItemImage = styled.div<{ type: 'pay' | 'received' }>`
   border-radius: 10px;
   margin-bottom: 20px;
   background-color: ${({ type, theme }) =>
-    type === 'pay' ? theme.colors.red : theme.colors.green};
+    type === 'paid' ? theme.colors.red : theme.colors.green};
 `
