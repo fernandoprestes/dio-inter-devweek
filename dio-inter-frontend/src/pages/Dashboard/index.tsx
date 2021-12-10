@@ -10,11 +10,37 @@ import Input from '../../components/Input'
 import Button from '../../components/Button'
 import Statement from './Statement'
 import useAuth from '../../hooks/useAuth'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+
+import { pay, request } from '../../services/resources/pix'
 
 const DashBoard = () => {
   const { user, getCurrentUser } = useAuth()
   const wallet = user?.wallet || 0
+
+  const [key, setKey] = useState('')
+  const [generatedKey, setGeneratedKey] = useState('')
+  const [value, setValue] = useState('')
+
+  const handleNewPayment = async () => {
+    const { data } = await request(Number(value))
+    if (data.copyPasteKey) {
+      setGeneratedKey(data.copyPasteKey)
+    }
+  }
+
+  const handlePayPix = async () => {
+    try {
+      const { data } = await pay(key)
+      if (data.msg) {
+        alert(data.msg)
+        return
+      }
+      alert('Não foi possivel o pagamento')
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   useEffect(() => {
     getCurrentUser()
@@ -48,11 +74,21 @@ const DashBoard = () => {
               <h2>Receber Pix</h2>
             </InlineTitle>
             <InlineContainer>
-              <Input style={{ flex: 1 }} placeholder="Valor" />
-              <Button>Gerar Código</Button>
+              <Input
+                style={{ flex: 1 }}
+                placeholder="Valor"
+                value={value}
+                onChange={event => setValue(event.target.value)}
+              />
+              <Button onClick={handleNewPayment}>Gerar Código</Button>
             </InlineContainer>
-            <p className="primary-color">Pix copia e cola</p>
-            <p className="primary-color">ASdADSAdsad</p>
+
+            {generatedKey && (
+              <>
+                <p className="primary-color">PIX: Copie e cole</p>
+                <p className="primary-color">{generatedKey}</p>
+              </>
+            )}
           </Card>
 
           <Card noShadown width="90%">
@@ -60,8 +96,13 @@ const DashBoard = () => {
               <h2>Pagar Pix</h2>
             </InlineTitle>
             <InlineContainer>
-              <Input style={{ flex: 1 }} placeholder="Insira a chave" />
-              <Button>Pagar Pix</Button>
+              <Input
+                style={{ flex: 1 }}
+                placeholder="Insira a chave"
+                value={key}
+                onChange={event => setKey(event.target.value)}
+              />
+              <Button onClick={handlePayPix}>Pagar Pix</Button>
             </InlineContainer>
           </Card>
         </div>
