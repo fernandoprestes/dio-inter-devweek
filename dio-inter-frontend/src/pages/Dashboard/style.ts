@@ -30,7 +30,7 @@ export const BodyContainer = styled.main`
     }
   }
 
-  & .wallet{
+  & .wallet {
     color: ${({ theme }) => theme.colors.primary};
     font-size: 1.8rem;
   }

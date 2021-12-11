@@ -33,4 +33,13 @@ export const UserInfo = styled.div`
   a {
     margin-left: 15px;
   }
+
+  div {
+    margin-right: 10px;
+  }
+
+  .logoutButton {
+    cursor: pointer;
+    color: ${({ theme }) => theme.colors.primary};
+  }
 `

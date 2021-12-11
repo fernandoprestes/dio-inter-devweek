@@ -9,5 +9,4 @@ userRouter.post('/signin', userController.signin);
 userRouter.post('/signup', userController.signup);
 userRouter.get('/me', userAuthenticated, userController.me);
 
-
 export default userRouter;

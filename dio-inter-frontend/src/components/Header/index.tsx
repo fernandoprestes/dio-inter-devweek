@@ -1,6 +1,7 @@
 import { HeaderContainer, HeaderWrapper, UserInfo } from './style'
 import logoInter from '../../assets/images/logo-inter.png'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import {FiLogOut} from 'react-icons/fi'
 
 import useAuth from '../../hooks/useAuth'
 
@@ -31,9 +32,10 @@ const Header = () => {
               {user.accountNumber}-{user.accountDigit}
             </strong>
           </div>
-          <a href="#" onClick={handleLogOut}>
+          {/* <a href="#" onClick={handleLogOut}>
             Sair
-          </a>
+          </a> */}
+          <FiLogOut className='logoutButton' size={24} onClick={handleLogOut} />
         </UserInfo>
       </HeaderWrapper>
     </HeaderContainer>

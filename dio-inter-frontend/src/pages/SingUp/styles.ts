@@ -15,9 +15,10 @@ export const Background = styled.div<{ image: any }>`
   width: 100%;
   top: 0;
   left: 0;
-  height: 50vh;
+  height: 55vh;
   background-image: url(${({ image }) => image});
-  background-size: contain;
+  background-size: cover;
+  background-repeat: no-repeat;
   z-index: 1;
 `
 

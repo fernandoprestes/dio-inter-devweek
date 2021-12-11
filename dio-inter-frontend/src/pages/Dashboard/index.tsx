@@ -1,18 +1,17 @@
+import { useEffect, useState } from 'react'
+import Button from '../../components/Button'
+import Card from '../../components/Card'
+import Header from '../../components/Header'
+import Input from '../../components/Input'
+import useAuth from '../../hooks/useAuth'
+import { pay, request } from '../../services/resources/pix'
+import Statement from './Statement'
 import {
-  DashboardBackground,
   BodyContainer,
+  DashboardBackground,
   InlineContainer,
   InlineTitle
 } from './style'
-import Header from '../../components/Header'
-import Card from '../../components/Card'
-import Input from '../../components/Input'
-import Button from '../../components/Button'
-import Statement from './Statement'
-import useAuth from '../../hooks/useAuth'
-import { useEffect, useState } from 'react'
-
-import { pay, request } from '../../services/resources/pix'
 
 const DashBoard = () => {
   const { user, getCurrentUser } = useAuth()
